@@ -7,10 +7,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Todo.Api", "Todo.Api\Todo.A
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Todo.Database", "Todo.Database\Todo.Database.csproj", "{16E21ED9-8763-47E0-A015-9EAF5DE5616D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Todo.Core", "Todo.Core\Todo.Core.csproj", "{1514D257-2B3E-4248-BDC7-04F4A5494305}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Todo.Common.Models", "Todo.Common.Models\Todo.Common.Models.csproj", "{3C5FEFA8-8166-4548-B7D2-B03A7B2764B0}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -28,13 +24,5 @@ Global
 		{16E21ED9-8763-47E0-A015-9EAF5DE5616D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{16E21ED9-8763-47E0-A015-9EAF5DE5616D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{16E21ED9-8763-47E0-A015-9EAF5DE5616D}.Release|Any CPU.Build.0 = Release|Any CPU
-		{1514D257-2B3E-4248-BDC7-04F4A5494305}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{1514D257-2B3E-4248-BDC7-04F4A5494305}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{1514D257-2B3E-4248-BDC7-04F4A5494305}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{1514D257-2B3E-4248-BDC7-04F4A5494305}.Release|Any CPU.Build.0 = Release|Any CPU
-		{3C5FEFA8-8166-4548-B7D2-B03A7B2764B0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3C5FEFA8-8166-4548-B7D2-B03A7B2764B0}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{3C5FEFA8-8166-4548-B7D2-B03A7B2764B0}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{3C5FEFA8-8166-4548-B7D2-B03A7B2764B0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
