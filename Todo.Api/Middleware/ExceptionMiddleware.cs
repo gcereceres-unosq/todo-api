@@ -29,7 +29,8 @@ public class ExceptionMiddleware
         
         context.Response.StatusCode = ex.GetType().ToString() switch
         {
-            "DuplicateTodoException" =>  (int)HttpStatusCode.BadRequest,
+            "DuplicateTodoException" or "InvalidTaskStatusException" =>  (int)HttpStatusCode.BadRequest,
+            "NotFoundException" => (int)HttpStatusCode.NotFound,
             _ => (int)HttpStatusCode.InternalServerError
         };
 

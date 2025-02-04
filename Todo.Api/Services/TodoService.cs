@@ -41,13 +41,35 @@ public class TodoService : ITodoService
             Title = newTaskModel.Title,
             Content = newTaskModel.Content,
             DueDate = newTaskModel.DueDate,
-            IsComplete = false,
+            TaskStatus = 0, // Initial status: ToDo
             IsActive = true,
             CreatedAt = DateTime.UtcNow
         };
 
         var todoTask = await _repo.Create(newTask);
         return _mapper.Map<TodoResponseModel>(todoTask);
+    }
+
+    public async Task<bool> Update(long id, TodoPutModel updatedTaskModel)
+    {
+        if (updatedTaskModel.TaskStatus == TaskStatus.Overdue)
+        {
+            throw new InvalidTaskStatusException($"Status cannot be set to: {updatedTaskModel.TaskStatus}");
+        }
+
+        var existingTask = await _repo.GetById(id);
+
+        if (existingTask == null)
+        {
+            throw new NotFoundException($"Task with id: {id}");
+        }
+
+        existingTask.Title = updatedTaskModel.Title;
+        existingTask.Content = updatedTaskModel.Content;
+        existingTask.DueDate = updatedTaskModel.DueDate;
+        existingTask.TaskStatus = (int)updatedTaskModel.TaskStatus;
+
+        return await _repo.Update(existingTask);
     }
 
     public async Task<bool> Delete(long id)

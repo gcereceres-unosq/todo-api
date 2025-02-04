@@ -38,34 +38,13 @@ namespace Todo.Api.Controllers
 
         // // PUT: api/Todo/5
         // // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        // [HttpPut("{id}")]
-        // public async Task<IActionResult> PutTodo(long id, Todo todo)
-        // {
-        //     if (id != todo.Id)
-        //     {
-        //         return BadRequest();
-        //     }
+        [HttpPut("{id}")]
+        public async Task<IActionResult> PutTodo(long id, TodoPutModel model)
+        {
+            var result = await _service.Update(id, model);
 
-        //     _context.Entry(todo).State = EntityState.Modified;
-
-        //     try
-        //     {
-        //         await _context.SaveChangesAsync();
-        //     }
-        //     catch (DbUpdateConcurrencyException)
-        //     {
-        //         if (!TodoExists(id))
-        //         {
-        //             return NotFound();
-        //         }
-        //         else
-        //         {
-        //             throw;
-        //         }
-        //     }
-
-        //     return NoContent();
-        // }
+            return result ? NoContent() : BadRequest();
+        }
 
         // // POST: api/Todo
         // // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754

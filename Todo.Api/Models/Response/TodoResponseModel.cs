@@ -6,6 +6,6 @@ public class TodoResponseModel
     public string Title { get; set; }
     public string Content { get; set; } 
     public DateTime DueDate { get; set; } 
-    public bool IsComplete { get; set; }
+    public TaskStatus TaskStatus { get; set; }
 
 }

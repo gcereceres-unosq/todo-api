@@ -54,4 +54,13 @@ public class TodoRepository : ITodoRepository
 
         return true;
     }
+
+    public async Task<bool> Update(TodoItem updatedModel)
+    {
+        _context.Entry(updatedModel).State = EntityState.Modified;
+
+        await _context.SaveChangesAsync();
+
+        return true;
+    }
 }
