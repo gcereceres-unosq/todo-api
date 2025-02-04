@@ -9,4 +9,5 @@ public interface ITodoRepository
     Task<TodoItem> GetById(long id);
     Task<TodoItem> Create(TodoItem newTask);
     Task<bool> TaskExists(string title, string content, DateTime dueDate);
+    Task<bool> Delete(long id);
 }

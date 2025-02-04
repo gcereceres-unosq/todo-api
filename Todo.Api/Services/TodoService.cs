@@ -32,7 +32,8 @@ public class TodoService : ITodoService
 
     public async Task<TodoResponseModel> Create(TodoPostModel newTaskModel)
     {
-        if(await _repo.TaskExists(newTaskModel.Title, newTaskModel.Content, newTaskModel.DueDate)){
+        if (await _repo.TaskExists(newTaskModel.Title, newTaskModel.Content, newTaskModel.DueDate))
+        {
             throw new DuplicateTodoException($"A task with title: {newTaskModel.Title}, content: {newTaskModel.Content}, due date: {newTaskModel.DueDate}. Already exists");
         }
         var newTask = new TodoItem
@@ -47,5 +48,16 @@ public class TodoService : ITodoService
 
         var todoTask = await _repo.Create(newTask);
         return _mapper.Map<TodoResponseModel>(todoTask);
+    }
+
+    public async Task<bool> Delete(long id)
+    {
+        var todo = await _repo.GetById(id);
+        if (todo == null)
+        {
+            return false;
+        }
+
+        return await _repo.Delete(id);
     }
 }

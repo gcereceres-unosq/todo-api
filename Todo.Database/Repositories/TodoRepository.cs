@@ -24,7 +24,7 @@ public class TodoRepository : ITodoRepository
     }
 
     public async Task<TodoItem> Create(TodoItem newTask)
-    {        
+    {
         _context.TodoItems.Add(newTask);
         await _context.SaveChangesAsync();
 
@@ -39,5 +39,19 @@ public class TodoRepository : ITodoRepository
                         task.DueDate.Date == dueDate.Date);
 
         return existing != null;
+    }
+
+    public async Task<bool> Delete(long id)
+    {
+        var todo = await _context.TodoItems.FindAsync(id);
+        if (todo == null)
+        {
+            return false;
+        }
+
+        _context.TodoItems.Remove(todo);
+        await _context.SaveChangesAsync();
+
+        return true;
     }
 }
