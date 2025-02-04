@@ -1,11 +1,7 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+using Todo.Api.Interfaces;
 using Todo.Api.Models;
+using Todo.Api.Models.Response;
 
 namespace Todo.Api.Controllers
 {
@@ -13,32 +9,32 @@ namespace Todo.Api.Controllers
     [ApiController]
     public class TodoController : ControllerBase
     {
-        private readonly TodoService _todoService;
-        public TodoController(TodoService todoService)
+        private readonly ITodoService _service;
+        public TodoController(ITodoService todoService)
         {
-            _todoService = todoService;
+            _service = todoService;
         }
 
         // GET: api/Todo
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<TodoModel>>> GetTodoItems()
+        public async Task<ActionResult<TodoResponseModel[]>> GetTodoItems()
         {
-            return await _todoService.GetAll();
+            return await _service.GetAll();
         }
 
         // GET: api/Todo/5
-        // [HttpGet("{id}")]
-        // public async Task<ActionResult<Todo>> GetTodo(long id)
-        // {
-        //     var todo = await _context.TodoItems.FindAsync(id);
+        [HttpGet("{id}")]
+        public async Task<ActionResult<TodoResponseModel>> GetTodo(long id)
+        {
+            var todo = await _service.GetById(id);
 
-        //     if (todo == null)
-        //     {
-        //         return NotFound();
-        //     }
+            if (todo == null)
+            {
+                return NotFound();
+            }
 
-        //     return todo;
-        // }
+            return todo;
+        }
 
         // // PUT: api/Todo/5
         // // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
@@ -73,14 +69,13 @@ namespace Todo.Api.Controllers
 
         // // POST: api/Todo
         // // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        // [HttpPost]
-        // public async Task<ActionResult<Todo>> PostTodo(Todo todo)
-        // {
-        //     _context.TodoItems.Add(todo);
-        //     await _context.SaveChangesAsync();
+        [HttpPost]
+        public async Task<ActionResult<TodoResponseModel>> PostTodo(TodoPostModel newTask)
+        {
+            var created = await _service.Create(newTask);
 
-        //     return CreatedAtAction("GetTodo", new { id = todo.Id }, todo);
-        // }
+            return CreatedAtAction("GetTodo", new { id = created.Id }, created);
+        }
 
         // // DELETE: api/Todo/5
         // [HttpDelete("{id}")]

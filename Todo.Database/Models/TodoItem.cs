@@ -1,6 +1,5 @@
-namespace Todo.Api.Models;
-
-public class TodoModel
+namespace Todo.Database.Models;
+public class TodoItem : TableBase
 {
     public string Title { get; set; }
     public string Content { get; set; } 
