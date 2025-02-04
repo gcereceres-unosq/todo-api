@@ -41,7 +41,7 @@ public class TodoService : ITodoService
             Title = newTaskModel.Title,
             Content = newTaskModel.Content,
             DueDate = newTaskModel.DueDate,
-            TaskStatus = 0, // Initial status: ToDo
+            TaskStatus = TaskIsOverDue(newTaskModel.DueDate) ? (int)TaskStatus.Overdue : (int)TaskStatus.ToDo, // Initial status: ToDo
             IsActive = true,
             CreatedAt = DateTime.UtcNow
         };
@@ -52,7 +52,8 @@ public class TodoService : ITodoService
 
     public async Task<bool> Update(long id, TodoPutModel updatedTaskModel)
     {
-        if (updatedTaskModel.TaskStatus == TaskStatus.Overdue)
+
+        if (updatedTaskModel.TaskStatus == TaskStatus.Overdue && !TaskIsOverDue(updatedTaskModel.DueDate))
         {
             throw new InvalidTaskStatusException($"Status cannot be set to: {updatedTaskModel.TaskStatus}");
         }
@@ -67,7 +68,7 @@ public class TodoService : ITodoService
         existingTask.Title = updatedTaskModel.Title;
         existingTask.Content = updatedTaskModel.Content;
         existingTask.DueDate = updatedTaskModel.DueDate;
-        existingTask.TaskStatus = (int)updatedTaskModel.TaskStatus;
+        existingTask.TaskStatus = TaskIsOverDue(updatedTaskModel.DueDate) && updatedTaskModel.TaskStatus != TaskStatus.Done ? (int)TaskStatus.Overdue : (int)updatedTaskModel.TaskStatus;
 
         return await _repo.Update(existingTask);
     }
@@ -82,4 +83,6 @@ public class TodoService : ITodoService
 
         return await _repo.Delete(id);
     }
+
+    private bool TaskIsOverDue(DateTime dueDate) => dueDate.Date >= DateTime.Now.Date;
 }
