@@ -7,7 +7,19 @@ using Todo.Database;
 using Todo.Database.Repositories;
 using Todo.Database.Repositories.Interfaces;
 
+var  TodoAllowSpecificOrigins = "_localhost";
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: TodoAllowSpecificOrigins,
+                      policy  =>
+                      {
+                          policy.WithOrigins("http://localhost:4200")
+                          .AllowAnyHeader()
+                          .AllowAnyMethod();
+                      });
+});
 
 builder.Services.AddControllers();
 builder.Services.AddDbContext<TodoContext>(opt =>
@@ -32,6 +44,8 @@ if (app.Environment.IsDevelopment())
 app.UseMiddleware<ExceptionMiddleware>();
 
 app.UseHttpsRedirection();
+
+app.UseCors(TodoAllowSpecificOrigins);
 
 app.UseAuthorization();
 
