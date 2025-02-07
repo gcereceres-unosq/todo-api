@@ -7,6 +7,8 @@ using Todo.Database;
 using Todo.Database.Repositories;
 using Todo.Database.Repositories.Interfaces;
 
+// namespace Todo.Api;
+
 var  TodoAllowSpecificOrigins = "_localhost";
 var builder = WebApplication.CreateBuilder(args);
 
@@ -52,3 +54,7 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
+
+
+// Make the implicit Program class public so test projects can access it
+public partial class Program { }
