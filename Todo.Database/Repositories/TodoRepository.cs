@@ -15,12 +15,12 @@ public class TodoRepository : ITodoRepository
 
     public async Task<TodoItem[]> GetAll()
     {
-        return await _context.TodoItems.AsNoTracking().ToArrayAsync();
+        return await _context.TodoItems.AsNoTracking().Where(task=>task.IsActive).ToArrayAsync();
     }
 
     public async Task<TodoItem> GetById(long id)
     {
-        return await _context.TodoItems.AsNoTracking().FirstOrDefaultAsync(task => task.Id == id);
+        return await _context.TodoItems.AsNoTracking().FirstOrDefaultAsync(task => task.Id == id && task.IsActive);
     }
 
     public async Task<TodoItem> Create(TodoItem newTask)
@@ -49,7 +49,7 @@ public class TodoRepository : ITodoRepository
             return false;
         }
 
-        _context.TodoItems.Remove(todo);
+        todo.IsActive = false;
         await _context.SaveChangesAsync();
 
         return true;

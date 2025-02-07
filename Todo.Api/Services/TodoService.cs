@@ -84,5 +84,5 @@ public class TodoService : ITodoService
         return await _repo.Delete(id);
     }
 
-    private bool TaskIsOverDue(DateTime dueDate) => dueDate.Date >= DateTime.Now.Date;
+    private bool TaskIsOverDue(DateTime dueDate) => dueDate.Date <= DateTime.Now.Date;
 }
